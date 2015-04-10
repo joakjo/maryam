@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/himmel" >
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dp"
+        android:padding="15dp"
+        android:background="@drawable/full_dialog_9p" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/sky_not_open_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingBottom="15dp"
+                android:text="@string/sky_not_open_starry_sky"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#000033"
+                android:textSize="30sp" />
+            
+            <TextView
+                android:id="@+id/sky_not_open_para1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:gravity="center_horizontal"
+                android:text="@string/sky_not_open_para_1"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#000066" />
+            
+            <TextView
+                android:id="@+id/sky_not_open_para2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:gravity="center_horizontal"
+                android:text="@string/sky_not_open_para_2"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#000066" />
+            
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout><!-- From: file:/D:/Programmering/Java/workspace/MaryamDevelopment/res/layout/fragment_sky_not_open.xml -->

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/instructions_viewgroup"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bakgrund2x"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/text_in1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/in1"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingBottom="25dp"
+                    android:textSize="16sp"
+                    android:text="@string/instructions_first"
+                    android:textColor="#FFFFFF" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/text_in2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/in2"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="25dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:textSize="16sp"
+                    android:text="@string/instructions_second"
+                    android:textColor="#FFFFFF" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/text_in3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/in3"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="25dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:textSize="16sp"
+                    android:text="@string/instructions_third"
+                    android:textColor="#FFFFFF" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/text_in4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/in4"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="25dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:textSize="16sp"
+                    android:text="@string/instructions_fourth"
+                    android:textColor="#FFFFFF" />
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
+
+</LinearLayout><!-- From: file:/D:/Programmering/Java/workspace/MaryamDevelopment/res/layout/fragment_instructions.xml -->

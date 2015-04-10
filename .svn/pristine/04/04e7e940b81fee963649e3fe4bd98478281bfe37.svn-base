@@ -1,0 +1,188 @@
+package se.su.dsv.maryam;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+public class Splash extends Activity {
+	private static final String	TAG			= "SPLASH";
+	private LocalDatabase		db;
+	private boolean				mWorkIsDone	= false;
+	private boolean				mClicked	= false;
+	private boolean				mFirstVisit;
+	private Thread				mThread;
+	private long				msAcc		= 0;
+	private long				splashTime	= 4000;
+	private int					resumeState;
+	private LocationListener	mCoarseLis;
+	private LocationListener	mFineLis;
+	private LocationManager		mLocMan;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_splash);
+		
+		resumeState = getIntent().getIntExtra("resume", PreSplash.NO_RESUME);
+		
+		setUpThread();
+		setTouchListener();
+		mFirstVisit = true;
+		
+		setUpLocationListener();
+	}
+
+	private void setUpLocationListener() {
+		try {
+			mLocMan = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+			
+			mCoarseLis = new LocationListener() {
+				public void onLocationChanged(Location location) {
+					mLocMan.removeUpdates(this);
+				}
+				public void onStatusChanged(String provider, int status, Bundle extras) {}
+				public void onProviderEnabled(String provider) {}
+				public void onProviderDisabled(String provider) {}
+			};
+			Criteria coarse = new Criteria();
+			coarse.setAccuracy(Criteria.ACCURACY_COARSE);
+			mLocMan.requestLocationUpdates(mLocMan.getBestProvider(coarse, true), 0, 0, mCoarseLis);
+			
+			mFineLis = new LocationListener() {
+				public void onLocationChanged(Location location) {
+					mLocMan.removeUpdates(this);
+				}
+				public void onStatusChanged(String provider, int status, Bundle extras) {}
+				public void onProviderEnabled(String provider) {}
+				public void onProviderDisabled(String provider) {}
+			};
+			Criteria fine = new Criteria();
+			fine.setAccuracy(Criteria.ACCURACY_FINE);
+			mLocMan.requestLocationUpdates(mLocMan.getBestProvider(fine, true), 0, 0, mFineLis);
+		} catch(Exception e) {
+//			e.printStackTrace()
+			//this should work
+		}
+	}
+	
+	@Override
+	protected void onResume() {
+		CheckHelper.checkFor3G(this); 
+		CheckHelper.checkForGPS(this);
+		super.onResume();
+	}
+	
+	@Override
+	protected void onStop() {
+		try { mLocMan.removeUpdates(mCoarseLis); mLocMan.removeUpdates(mFineLis); }
+		catch (Exception e) {;}
+		super.onStop();
+	}
+	
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if(hasFocus) {
+			if(mFirstVisit) {
+				mThread.start();
+				mFirstVisit = false;
+			}
+			initDB();
+		}
+	}
+
+	private void initDB() {
+		try {
+			db = Global.getInstance(this).getDatabase();
+			if (resumeState == PreSplash.NO_RESUME)
+				db.eraseDatabaseForNewRoute();
+			db.eraseDatabase();
+			
+			
+			AsyncTask<String, Integer, HashMap<Integer, Route>> routesFromAPI = new DownloadFilesTask().execute("");
+			AsyncTask<String, Integer, ArrayList<Comment>> commentsFromAPI = new DownloadCommentsTask().execute("");
+			
+			db.addRoutesFromAPI(routesFromAPI.get());
+			db.addCommentsFromAPI(commentsFromAPI.get());
+			
+			mWorkIsDone = true;
+		} catch (Exception e) {
+			CheckHelper.checkFor3G(this);
+		}
+
+	}
+
+	private void setTouchListener() {
+		RelativeLayout rl = (RelativeLayout) findViewById(R.id.splash_parent);
+		rl.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mClicked = true;
+			}
+		});
+	}
+	
+	private void setUpThread() {
+		mThread = new Thread() {
+			@Override
+			public void run() {
+				try {
+					while (msAcc < splashTime && !mClicked) {
+						msAcc = msAcc + 100;
+						sleep(100);
+					}
+					while (!mWorkIsDone)
+						sleep(100);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					finishSplash();
+				}
+			}
+		};
+	}
+
+	private void finishSplash() {
+		// Just a basic forwarding
+		Intent i = new Intent(this, TabHoster.class);
+		i.putExtra("init", false);
+		startActivity(i);
+		Splash.this.finish();
+	}
+	
+	private class DownloadFilesTask extends AsyncTask<String, Integer, HashMap<Integer, Route>> {
+		protected HashMap<Integer, Route> doInBackground(String... urls) {
+			HashMap<Integer, Route> map = DBGetter.getRoutes();
+			return map;
+		}
+	}
+	
+	private class DownloadCommentsTask extends AsyncTask<String, Integer, ArrayList<Comment>> {
+		protected ArrayList<Comment> doInBackground(String... urls) {
+			ArrayList<Comment> comments;
+			try {
+				comments = DBGetter.getComments(100);
+			} catch (IOException e) {
+				e.printStackTrace();
+				return new ArrayList<Comment>();
+			}
+			return comments;
+		}
+	}
+
+}

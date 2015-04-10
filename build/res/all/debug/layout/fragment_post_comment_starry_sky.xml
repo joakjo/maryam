@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/himmel" >
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dp"
+        android:padding="15dp"
+        android:background="@drawable/full_dialog_9p" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+             >
+
+            <TextView
+                android:id="@+id/post_comment_text_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingBottom="15dp"
+                android:text="@string/post_comment_title"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#000033"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/post_comment_text_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:padding="5dp"
+                android:text="@string/post_comment_name"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#000066" />
+
+            <EditText
+                android:id="@+id/post_comment_edit_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:imeOptions="actionNext|actionDone"
+                android:singleLine="true"
+                android:hint="@string/post_comment_hint" >
+            </EditText>
+
+            <TextView
+                android:id="@+id/post_comment_text_answer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:padding="5dp"
+                android:text="@string/post_comment_answer"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#000066" />
+
+            <EditText
+                android:id="@+id/post_comment_edit_answer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                tools:ignore="TextFields" />
+
+            <TextView
+                android:id="@+id/post_comment_text_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:gravity="center_horizontal"
+                android:text="@string/post_comment_info"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#000033" />
+
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" >
+
+	<LinearLayout android:layout_weight="0.5">
+                <TextView
+                    android:id="@+id/post_comment_button_post"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/symb_answer"
+                    android:drawablePadding="5dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#000066"
+                    android:paddingLeft="15dp"
+                    android:clickable="true"
+                    android:text="@string/post_comment_post" />
+	</LinearLayout>
+	
+	<LinearLayout 
+	    android:layout_weight="0.5"
+	    android:gravity="right">
+                <TextView
+                    android:id="@+id/post_comment_button_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/symb_dontanswer"
+                    android:drawablePadding="5dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#000066"
+                    android:paddingRight="15dp"
+                    android:clickable="true"
+                    android:text="@string/post_comment_cancel" />
+	</LinearLayout>
+<!--                 <Button -->
+<!--                     android:id="@+id/post_comment_button_post" -->
+<!--                     android:layout_width="wrap_content" -->
+<!--                     android:layout_height="wrap_content" -->
+<!--                     android:text="@string/post_comment_post" /> -->
+
+<!--                 <Button -->
+<!--                     android:id="@+id/post_comment_button_cancel" -->
+<!--                     android:layout_width="wrap_content" -->
+<!--                     android:layout_height="wrap_content" -->
+<!--                     android:text="@string/post_comment_cancel" /> -->
+            </TableRow>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout><!-- From: file:/D:/Programmering/Java/workspace/MaryamDevelopment/res/layout/fragment_post_comment_starry_sky.xml -->

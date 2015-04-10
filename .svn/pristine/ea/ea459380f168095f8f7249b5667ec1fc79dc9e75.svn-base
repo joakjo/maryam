@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/back_to_start_viewgroup"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.01" >
+
+            <TextView
+                android:id="@+id/end_title_text"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:paddingBottom="10dp"
+                android:text="@string/theEnd"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#00004A"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_upper_end_description"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.01"
+            android:text="@string/backToStart"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#00004A" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/map_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    </LinearLayout>
+
+</LinearLayout>

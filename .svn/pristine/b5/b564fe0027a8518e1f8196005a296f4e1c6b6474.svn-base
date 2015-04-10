@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Titles and other system generated strings -->
+    <string name="app_name">Maryam</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_tab_hoster">TabHoster</string>
+    <string name="title_activity_test_for_start">TestForStart</string>
+    <string name="title_activity_start_point">StartPoint</string>
+    <string name="title_activity_scene">SceneActivity</string>
+    <string name="exit_activity_settings">Avsluta</string>
+    
+    <!-- Menu texts -->
+    <string name="language_menu_main_language">Svenska</string>
+    <string name="language_menu_message">Här kan du välja om du vill visa stjärnor med tankar från alla länder på alla språk eller om du hellre endast vill läsa uppladdade tankar på svenska.</string>
+    <string name="language_menu_all_languages">Alla språk</string>
+    <string name="language_menu">Språkval</string>
+
+		<!-- Languages -->
+	<string name="lang_main">SV</string>
+	<string name="lang_en">EN</string>
+	<string name="lang_sv">SV</string>
+	
+    <!-- About maryam -->
+    <string name="about_maryam_part1"><![CDATA["Mobildramat Maryam av Rebecca Forsberg handlar om Maryam Al-Ijliya som bodde i 900-talets Aleppo, Syrien. Hon konstruerade och tillverkade astrolabier, ett positioneringsverktyg som användes inom astronomi, astrologi och navigering. Maryams far var en lärling till en berömd astrolabiumtillverkare i Bagdad och Maryam i sin tur blev hans elev. Hennes handgjorda design var så innovativ att hon anställdes av stadens regent, Sayf al Dawla, under perioden 944 - 967.   I Maryams astrolabium inkluderades flera religioners högtider och språk så att astrolabiet kunde användas av många olika grupper i samhället, bland annat för att avgöra när Ramadan börjar och slutar. Astrolabiet var inte helt olik dagens smartphone.<br /><br /> ]]></string>
+    <string name="about_maryam_part2">
+<![CDATA["Mobildramat Maryam är en app som utspelas i mobiltelefonen och i städer runt om i Sverige. Maryam är den tredje delen i trilogin Women In Science, som porträtterar kvinnliga pionjärer inom vetenskapen med koppling till dagens forskning samt utforskar nya sätt för teatern att nå en bredare publik.<br /><br />
+Maryam ges av RATS Teater i samarbete med Dramaten samt Stockholms universitet – Institutionen för data- och systemvetenskap.<br /><br />
+Premiär 7 maj 2013.<br /><br />
+<b>Manus och regi:</b> Rebecca Forsberg<br />
+<b>Maryam:</b> Linda Lönnerfeldt<br />
+<b>Pappan:</b> Staffan Göthe<br />
+<b>Övriga röster:</b> Elever vid Kista Folkhögskola - Lina Abbas, Ahmed Abdalla, Wafaa Aljuburi, Fadwa Aqel, Boshra Ayobi, Nadia Bechbech, Sheima Biniaz, Ouided Dakhili, Mohamadeya Elhaj, Aicha Kalef, Zahra Khadim, Sun Hui Ko, Venus Mohammed, Marian Osman Abdulle, Sophia Sharif Yusuf, Leila Shejk Omar, Ehtesham Thanvi, samt läraren Karin Westberg.<br />  
+<b>Scenografiskt element:</b> Peter Hagdahl<br />
+<b>Ljudläggning:</b> Anders Bennysson<br />
+<b>Inspelningstekniker:</b> Tina Pålsson<br />
+<b>Musik:</b> Johan Sundhage/ Klevgränd produktion<br />
+<b>Grafisk form:</b> Mia Degerman och Lina Åberg/EBDC<br />
+<b>Approduktion Iphone:</b> Klevgränd produktion<br />
+<b>Approduktion Android:</b> Joakim Johansson, Fredrik Lundin, studenter vid Institutionen för data- och systemvetenskap, Stockholms universitet.<br />
+<b>Marknadsföring:</b> Cilla Fredsberg<br />
+<b>Producent:</b> Rebecca Medici"
+]]>
+    </string>
+    <!-- Instructions -->
+    <string name="instructions_first">Sök upp platsen där du aktiverar första scenen i dramat.</string>
+    <string name="instructions_second">När du lyssnat klart, gå vidare till en av de andra positionerna. Du väljer själv vilken.</string>
+    <string name="instructions_third">Den sista scenen utspelar sig på samma plats som startscenen. Gå dit för att avsluta dramat.</string>
+    <string name="instructions_fourth">Skriv in en av dina tankar i sjärnhimlen. Det kan du göra när du lyssnat klart.</string>
+
+	
+	<string name="about_title">Om Maryam</string>
+		
+    <!-- Startpoint layout -->
+    <string name="start_point_text">För att ta del av detta audiella skådespel ska du ta dig till närmaste startplats.</string>
+    <string name="startPoint">Startplats</string>
+
+    <!-- Ending point layout -->
+    <string name="theEnd">Slutet</string>
+    <string name="backToStart">Nu ska du gå tillbaka till där du började för att avsluta.</string>
+
+    <!-- Music service -->
+    <string name="stopService">Stoppa musiken</string>
+    <string name="title_activity_exit">ExitActivity</string>
+
+	<!-- Tabs -->
+	<string name="tab_scenes"> Scener</string>
+	<string name="tab_about"> Om Maryam</string>
+	<string name="tab_instructoins"> Instruktioner</string>
+	<string name="tab_sky"> Stjärnhimlen</string>
+	
+	<!-- Scene titles -->
+	<string name="scene_title_0"> På trappan</string>
+	<string name="scene_title_1"> Längst väggen</string>
+	<string name="scene_title_2"> Med bröder och systrar</string>
+	<string name="scene_title_3"> I valvet</string>
+	<string name="scene_title_4"> Mot öppet hav</string>
+	<string name="scene_title_5"> Vägkorsnig</string>
+	<string name="scene_title_6"> Under dadelträdet</string>
+	
+	    <!-- Check helper -->
+    <string name="no_connection_message"> Din interuppkoppling måste vara påslagen för att appen skall fungera. Slå på 3G-funktionen på din telefon och försök igen eller klicka på stäng för att avsluta appen.</string>
+    <string name="no_connection_title"> Uppkopplingsproblem</string>
+    <string name="no_position_title"> Positionsproblem</string>
+    <string name="no_position_message"> Din position kan inte bestämmas. Aktivera GPS-funktionen och tillåt telefonen att använda trådlösa näverk för att fastställa din position.</string>
+    <string name="check_helper_close"> Stäng</string>
+    <string name="check_helper_settings"> Inställningar</string>
+    
+    <!-- Splash Connection error -->
+    <string name="downloading_error_title">Nedladdningsproblem</string>
+    <string name="downloading_error_message">Det går inte att ladda ner rutterna. Se efter om du har en anslutning till internet på din mobil.</string>
+	
+    <!-- Alert findStartPoint -->
+    <string name="no_position_null_close"> Stäng</string>
+    <string name="no_position_null_title"> Positionsproblem</string>
+    <string name="no_position_null_message"> Det går inte att fastställa din position. Pröva att öppna google maps och se om din position dyker upp där. Återvänd sedan till denna app. Tryck på stäng för att avsluta. </string>
+
+    <!-- Post comments -->
+    <string name="post_comment_title"> Vad drömmer du om?</string>
+    <string name="post_comment_name"> Namn:</string>
+    <string name="post_comment_answer"> Svar:</string>
+    <string name="post_comment_hint"> Anonym</string>
+    <string name="post_comment_info"> Ditt svar läggs upp som en stjärna på himlen.</string>
+    <string name="post_comment_post"> Lägg upp</string>
+    <string name="post_comment_cancel"> Inte nu</string>
+
+    <!-- Sky not open -->
+    <string name="sky_not_open_starry_sky"> Stjärnhimmel</string>
+    <string name="sky_not_open_para_1"> Här kan du ladda upp dina tankar och läsa andra.</string>
+    <string name="sky_not_open_para_2"> Men du måste gå klart hela dramat innan du kan delta. </string>
+    <string name="title_activity_star_pressed_dialog">StarPressedDialog</string>
+    <string name="fill_in_comment_first">Du måste fylla i en kommentar innan du postar</string>
+    <string name="please_wait">Vänligen vänta</string>
+    <string name="uploading_star">Din stjärna laddas upp till stjärnhimlen</string>
+    <string name="server_problem">Serverproblem, försök igen senare</string>
+
+    <!-- Resume state -->
+    <string name="resume_state_title"> Återuppta startad rutt</string>
+    <string name="resume_state_message"> Du har redan börjat gå en rutt. Vill du fortsätta där du slutade eller starta en ny?</string>
+    <string name="resume_state_yes"> Återuppta</string>
+    <string name="resume_state_no"> Starta ny</string>
+    <string name="title_activity_pre_splash">PreSplash</string>
+
+	<!-- Media player -->
+	<string name="media_start"> Start</string>
+	<string name="media_playing_scene"> Spelar scen </string>
+	<string name="media_pausing_scene"> Pausar scen </string>
+	<string name="media_remaining"> Återstående tid: </string>
+	<string name="media_pause"> Pausa </string>
+	<string name="media_restart"> Börja om </string>
+	<string name="media_repeat"> Spela igen </string>
+	<string name="media_continue"> Förtsätt </string>
+	
+    <!-- TabHoster -->
+    <string name="back_pressed"> Tryck på bakåtknappen igen för att avsluta</string>
+    <string name="title_activity_result">ResultActivity</string>
+    <string name="notification_title"> Maryam är aktiv</string>
+    <string name="notification_message">Dubbelklicka på bakåtknappen för att stänga av appen</string>
+	
+	<!-- Database -->
+    <string name="Database_onCreate">"
+CREATE TABLE IF NOT EXISTS route(_id INTEGER PRIMARY KEY AUTOINCREMENT, routeId INTEGER, color INTEGER, title TEXT, extra TEXT, current INTEGER)
+CREATE TABLE IF NOT EXISTS comment(_id INTEGER PRIMARY KEY AUTOINCREMENT, apiId INTEGER, routeId INTEGER, z INTEGER, starPosX REAL, starPosY REAL, message TEXT, sender TEXT, date TEXT)
+CREATE TABLE IF NOT EXISTS point(_id INTEGER PRIMARY KEY AUTOINCREMENT, pointId INTEGER, title TEXT, place INTEGER, radius INTEGER, latitude REAL, longitude REAL, routeId INTEGER)
+CREATE TABLE IF NOT EXISTS userdata(_id INTEGER PRIMARY KEY AUTOINCREMENT, userId INTEGER, starPosX REAL, starPosY REAL, message TEXT, sender TEXT, routeId INTEGER, date TEXT, seenAnimation INTEGER, userlang TEXT)
+CREATE TABLE IF NOT EXISTS visited(_id INTEGER PRIMARY KEY AUTOINCREMENT, visited INTEGER)
+CREATE TABLE IF NOT EXISTS states(_id INTEGER PRIMARY KEY AUTOINCREMENT, stateId INTEGER, stateValue INTEGER)
+CREATE TABLE IF NOT EXISTS starPosition(_id INTEGER PRIMARY KEY AUTOINCREMENT, xPos REAL, yPos REAL)
+INSERT INTO userdata(userId, starPosX, starPosY, message, sender, routeId, date, seenAnimation, userlang) VALUES(0, 0, 0, 'null', 'null', 0, '0', 0, 'SE')
+INSERT INTO states(stateId, stateValue) VALUES(1, 1)
+INSERT INTO states(stateId, stateValue) VALUES(2, 1)
+"</string>
+    <string name="Database_dropTables_always">"
+DROP TABLE IF EXISTS comment
+"</string>
+    <string name="Database_dropTables_newRoute">"
+DROP TABLE IF EXISTS route
+DROP TABLE IF EXISTS point
+DROP TABLE IF EXISTS visited
+DROP TABLE IF EXISTS states
+DROP TABLE IF EXISTS starPosition
+DROP TABLE IF EXISTS userdata
+"</string>
+    <string name="Database_crowd_newRoute">"
+"</string>
+    <string name="start_found_text">Du är nu i position! Innan du startar - glöm inte att sätta på dig dina hörlurar.</string>
+
+</resources>

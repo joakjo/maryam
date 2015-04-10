@@ -1,0 +1,575 @@
+package se.su.dsv.maryam;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteCursor;
+import android.database.sqlite.SQLiteCursorDriver;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQuery;
+
+@SuppressLint("UseSparseArrays")
+public class LocalDatabase extends SQLiteOpenHelper {
+	private static final String	DATABASE_NAME		= "MaryamDatabase";
+	private static final int	DATABASE_VERSION	= 1;
+	private final Context		mContext;
+	final int					DEFAULT_CURRENT		= 0, DEFAULT_VISITED = 0;
+	private String				TAG					= "LOCALDATABASE";
+
+    /** Constructor */
+    public LocalDatabase(Context context) {
+    	super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    	this.mContext = context;
+    }
+    public void eraseDatabase(){
+    	onUpgrade(getWritableDatabase(), 1, 1);
+    	
+    }
+    /**
+     * Execute all of the SQL statements in the String[] array
+     * @param db The database on which to execute the statements
+     * @param sql An array of SQL statements to execute
+     */
+    private void execMultipleSQL(SQLiteDatabase db, String[] sql){
+    	for( String s : sql )
+    		if (s.trim().length()>0)
+    			db.execSQL(s);
+    }
+    
+    /** Called when it is time to create the database */
+	@Override
+	public void onCreate(SQLiteDatabase db) {
+		String[] sql = mContext.getString(R.string.Database_onCreate).split("\n");
+		db.beginTransaction();
+		try {
+			// Create tables & test data
+			execMultipleSQL(db, sql);
+			db.setTransactionSuccessful();
+		} catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        	db.endTransaction();
+        }
+	}
+	
+	/** Called when the database must be upgraded */
+	@Override
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		String[] sql = mContext.getString(R.string.Database_dropTables_always).split("\n");
+		db.beginTransaction();
+		try {
+			execMultipleSQL(db, sql);
+			db.setTransactionSuccessful();
+		} catch (SQLException e) {e.printStackTrace();} 
+		finally {
+			db.endTransaction();
+			}
+
+        onCreate(db);
+	}
+	
+	public void eraseDatabaseForNewRoute() {
+		SQLiteDatabase db = getWritableDatabase();
+		String[] sql = mContext.getString(R.string.Database_dropTables_newRoute).split("\n");
+		db.beginTransaction();
+		try {
+			execMultipleSQL(db, sql);
+			db.setTransactionSuccessful();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db.endTransaction();
+		}
+
+	}
+	
+	public int getUserIdFromLocalDatabase() {
+		int localUserId = 0;
+		SQLiteDatabase db = null;
+		Cursor c = null;
+		try{
+			db = getReadableDatabase(); 
+			c = db.rawQuery("SELECT * FROM userdata", null);
+			c.moveToFirst();
+			localUserId = Integer.valueOf(c.getInt(c.getColumnIndexOrThrow("userId")));
+		}
+		finally{
+			if (c != null)
+				c.close();
+			if (db != null)
+				db.close();
+		}
+		return localUserId;
+	}
+	
+	public Comment getUserCommentFromLocalDatabase() {
+		Comment cc = null;
+		SQLiteDatabase db = null;
+		Cursor c = null;
+		try {
+			db = getReadableDatabase();
+			c = db.rawQuery("SELECT * FROM userdata", null);
+			c.moveToFirst();
+			int routeId = Integer.valueOf(c.getInt(c.getColumnIndexOrThrow("routeId")));
+			int placeId = -1; // Integer.valueOf(c.getInt(c.getColumnIndexOrThrow("placeId"))); // // Ej hämtad från databasen
+			int z = Integer.valueOf(c.getInt(c.getColumnIndexOrThrow("userId")));
+			double xpos = Double.valueOf(c.getDouble(c.getColumnIndexOrThrow("starPosX")));
+			double ypos = Double.valueOf(c.getDouble(c.getColumnIndexOrThrow("starPosY")));
+			String message = c.getString(c.getColumnIndexOrThrow("message"));
+			String sender = c.getString(c.getColumnIndexOrThrow("sender"));
+			Date date = new Date(Long.valueOf(c.getString(c.getColumnIndexOrThrow("date"))));
+			cc = new Comment(-1, routeId, placeId, z, xpos, ypos, message, sender, date);
+		} catch (IllegalArgumentException e) {
+		} finally {
+			if (c != null)
+				c.close();
+			if (db != null)
+				db.close();
+		}
+		return cc;
+	}
+	
+	public boolean setUserComment(int routeId, double xpos, double ypos, String message, String sender, Date date){
+		String sql = String.format(Locale.US, "UPDATE userdata SET  routeId = '%d', starPosX = '%f', starPosY = '%f', message = '%s', sender = '%s', date = '%s'", routeId, xpos, ypos, message, sender, String.valueOf(date.getTime()));
+		SQLiteDatabase db = null;
+		try {
+			db = getWritableDatabase();
+			db.execSQL(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (db != null)
+				db.close();
+		}
+		return true;
+	}
+	
+	public void setSeenAnimation(boolean seenAnimation){
+		int seenAnimationInt = (seenAnimation) ? 1 : 0;
+		String sql = String.format(Locale.US, "UPDATE userdata SET seenAnimation = '%d'", seenAnimationInt);
+		SQLiteDatabase db = null;
+		try {
+			db = getWritableDatabase();
+			db.execSQL(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (db != null)
+				db.close();
+		}
+	}
+	
+	public boolean getSeenAnimation(){
+		SQLiteDatabase db = null;
+		Cursor c = null;
+		try {
+			db = getReadableDatabase(); 
+			c = db.rawQuery("SELECT seenAnimation FROM userdata", null);
+			if (c.moveToFirst()){
+				if (Integer.valueOf(c.getInt(c.getColumnIndexOrThrow("seenAnimation"))) == 1)
+					return true;
+			}
+		} finally {
+			if (c != null)
+				c.close();
+			if (db != null)
+				db.close();
+		}
+		return false;
+	}
+
+	public void addRoutesFromAPI(HashMap<Integer, Route> routesFromAPI) {
+		ArrayList<String> sqlList = new ArrayList<String>();
+		int apiUserId = 0;
+		
+		for (Route rt : routesFromAPI.values()) {
+			sqlList.add(String.format(Locale.US, "INSERT INTO route (_id, routeId, color, title, extra, current) VALUES (NULL, '%d', '%d', '%s', '%s', '%d')",
+					rt.getId(), rt.getColor(), rt.getTitle(), rt.getExtra(), DEFAULT_CURRENT));
+			for (Point p : rt.getPoints().values()) {
+				sqlList.add(String.format(Locale.US,
+						"INSERT INTO point (_id, pointId, title, place, radius, latitude, longitude, routeId) VALUES (NULL, %d, '%s', %d, %d, %f, %f, %d)",
+						p.getId(), p.getTitle(), p.getPlace(), p.getRadius(), p.getLat(), p.getLng(), rt.getId()));
+			}
+			apiUserId = rt.getUserId();
+		}
+		
+		// Add userId to database if first time
+		
+		if (getUserIdFromLocalDatabase() == 0){
+			sqlList.add(String.format(Locale.US, "UPDATE userdata SET userId = '%d'", apiUserId));
+		}
+		
+		SQLiteDatabase db = getWritableDatabase();
+		db.beginTransaction();
+		try {
+			String[] sql = new String[sqlList.size()];
+			execMultipleSQL(db, sqlList.toArray(sql));
+			db.setTransactionSuccessful();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db.endTransaction();
+			db.close();
+		}
+	}
+
+	public void addCommentsFromAPI(ArrayList<Comment> commentsFromAPI) {
+		String[] sql = new String[commentsFromAPI.size()];
+		ArrayList<String> sqlList = new ArrayList<String>();
+		for (Comment c : commentsFromAPI)
+			sqlList.add(String
+					.format(Locale.US,
+							"INSERT INTO comment(apiId, routeId, z, starPosX, starPosY, message, sender, date) VALUES ('%d', '%d', '%d', '%f', '%f', '%s', '%s', '%d')",
+							c.getId(), c.getRouteId(), c.getZ(), c.getXpos(), c.getYpos(), c.getMessage(), c.getSender(), c.getDate().getTime()));
+		SQLiteDatabase db = getWritableDatabase();
+		db.beginTransaction();
+		try {
+			execMultipleSQL(db, sqlList.toArray(sql));
+			db.setTransactionSuccessful();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db.endTransaction();
+			db.close();
+		}
+	}
+
+	public ArrayList<Comment> getComments(int limit) {
+		ArrayList<Comment> comments = new ArrayList<Comment>();
+		SQLiteDatabase db = null;
+		Cursor c = null;
+		try {			
+			db = getReadableDatabase(); 
+			c = db.rawQuery("SELECT * FROM comment ORDER BY date DESC LIMIT " + limit, null);
+			c.moveToFirst();
+			while (!c.isAfterLast()) {
+				int id = Integer.valueOf(c.getInt(c.getColumnIndexOrThrow("apiId")));
+				int routeId = Integer.valueOf(c.getInt(c.getColumnIndexOrThrow("routeId")));
+				int placeId = -1; // Integer.valueOf(c.getInt(c.getColumnIndexOrThrow("placeId")));
+				// // Ej hämtad från databasen
+				int z = Integer.valueOf(c.getInt(c.getColumnIndexOrThrow("z")));
+				double xpos = Double.valueOf(c.getDouble(c.getColumnIndexOrThrow("starPosX")));
+				double ypos = Double.valueOf(c.getDouble(c.getColumnIndexOrThrow("starPosY")));
+				String message = c.getString(c.getColumnIndexOrThrow("message"));
+				String sender = c.getString(c.getColumnIndexOrThrow("sender"));
+				Date date = new Date(Long.valueOf(c.getString(c.getColumnIndexOrThrow("date"))));
+				Comment cc = new Comment(id, routeId, placeId, z, xpos, ypos, message, sender, date);
+
+				comments.add(cc);
+				c.moveToNext();
+
+			}
+		} catch (IllegalArgumentException e) {
+		} finally {
+			if (c != null)
+				c.close();
+			if (db != null)
+				db.close();
+		}
+		return comments;
+	}
+
+	public HashMap<Integer, Route> getRoutes() {
+		RoutesCursor rc = null;
+		SQLiteDatabase rcdb = null;
+		PointsCursor pc = null;
+		SQLiteDatabase pcdb = null;
+		HashMap<Integer, Route> routes = new HashMap<Integer, Route>();
+		HashMap<Integer, Point> points = null;
+		try {
+			rc = getRoutesCursor();
+			rcdb = rc.getDatabase();
+			rc.moveToFirst();
+			while (!rc.isAfterLast()) {
+				try {
+					pc = getPointCursor(rc.getColRouteId());
+					pcdb = pc.getDatabase();
+					points = new HashMap<Integer, Point>();
+					while (!pc.isAfterLast()) {
+						points.put(pc.getColPlace(), new Point(pc.getColLatitude(), pc.getColLongitude(), pc.getColRadius(), pc.getColPlace(), pc.getColPointId(), pc.getColTitle()));
+						pc.moveToNext();
+					}
+				} catch (Exception e) {
+				} finally {
+					if (null != pc) {
+						try {
+							pc.close();
+						} catch (SQLException e) {
+						}
+					}
+					if (pcdb != null)
+						pcdb.close();
+				}
+				routes.put(rc.getColRouteId(), new Route(rc.getColRouteId(), rc.getColColor(), rc.getColTitle(), rc.getColExtra(), points));
+				rc.moveToNext();
+			}
+			return routes;
+		} finally {
+			if (null != rc) {
+				try {
+					rc.close();
+				} catch (SQLException e) {
+				}
+			}
+			if (rcdb != null)
+				rcdb.close();
+		}
+	}
+	
+
+	public void addVisited(int pointId){
+		String sql = String.format(Locale.US, "INSERT INTO visited(visited) VALUES('%d')", pointId);
+		SQLiteDatabase db = null;
+		try {
+			db = getWritableDatabase();
+			db.execSQL(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (db != null)
+				db.close();
+		}
+	}
+	
+	public List<Integer> getVisited(){
+		List<Integer> visitedList = new ArrayList<Integer>();
+		SQLiteDatabase db = null;
+		Cursor c = null;
+		try {
+			db = getReadableDatabase(); 
+			c = db.rawQuery("SELECT * FROM visited", null);
+			c.moveToFirst();
+			while (!c.isAfterLast()){
+				visitedList.add(Integer.valueOf(c.getInt(c.getColumnIndexOrThrow("visited"))));
+				c.moveToNext();
+			}
+		} finally {
+			if (c != null)
+				c.close();
+			if (db != null)
+				db.close();
+		}
+		return visitedList;
+	}
+	
+	public void addStarPosition(XY xy){
+		String sql = String.format(Locale.US, "INSERT INTO starPosition(xPos, yPos) VALUES('%f', '%f')", xy.getX(), xy.getY());
+		SQLiteDatabase db = null;
+		try {
+			db = getWritableDatabase();
+			db.execSQL(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (db != null)
+				db.close();
+		}
+	}
+	
+	public ArrayList<XY> getStarPositions() {
+		ArrayList<XY> listXY = new ArrayList<XY>();
+		SQLiteDatabase db = null;
+		Cursor c = null;
+		try {
+			db = getReadableDatabase(); 
+			c = db.rawQuery("SELECT * FROM starPosition", null);
+			c.moveToFirst();
+			while (!c.isAfterLast()) {
+				XY xy = new XY(Float.valueOf(c.getFloat(c.getColumnIndexOrThrow("xPos"))), Float.valueOf(c.getFloat(c.getColumnIndexOrThrow("yPos"))));
+				listXY.add(xy);
+				c.moveToNext();
+			}
+		} finally {
+			if (c != null)
+				c.close();
+			if (db != null)
+				db.close();
+		}
+		return listXY;
+	}
+	
+	public void setState(int stateId, int stateValue) {
+		String sql = String.format(Locale.US, "UPDATE states SET stateValue = '%d' WHERE stateId= '%d'", stateValue, stateId);
+		SQLiteDatabase db = null;
+		try {
+			db = getWritableDatabase();
+			db.execSQL(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (db != null)
+				db.close();
+		}
+	}
+	
+	public int getState(int stateId) {
+		int stateValue = 0;
+		SQLiteDatabase db = null;
+		Cursor c = null;
+		try {
+			db = getReadableDatabase(); 
+			c = db.rawQuery("SELECT stateValue FROM states WHERE stateId =" + stateId, null);
+			if (c.moveToFirst())
+				stateValue = c.getInt(c.getColumnIndex("stateValue"));
+		} finally {
+			if (c != null)
+				c.close();
+			if (db != null)
+				db.close();
+		}
+		return stateValue;
+	}
+	
+	public void setCurrentRoute(int routeId) {
+		String sql = String.format(Locale.US, "UPDATE route SET current = 1 WHERE routeId = '%d'", routeId);
+		SQLiteDatabase db = null;
+		try {
+			db = getWritableDatabase();
+			db.execSQL(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (db != null)
+				db.close();
+		}
+	}
+	
+	public Route getCurrentRoute() {
+		HashMap<Integer, Point> points = new HashMap<Integer, Point>();
+		int id, color;
+		String title, extra;
+		PointsCursor pc = null;
+
+		// Get current route
+		String sql = "SELECT * FROM route where current = 1";
+		SQLiteDatabase db = null;
+		Cursor c = null;
+		try {
+			db = getReadableDatabase(); 
+			c = db.rawQuery(sql, null);
+			c.moveToFirst();
+			id = c.getInt(c.getColumnIndexOrThrow("routeId"));
+			color = c.getInt(c.getColumnIndexOrThrow("color"));
+			title = c.getString(c.getColumnIndexOrThrow("title"));
+			extra = c.getString(c.getColumnIndexOrThrow("extra"));
+		} finally {
+			if (c != null)
+				c.close();
+			if (db != null)
+				db.close();
+		}
+
+		// Get points for current route
+
+		try {
+			pc = getPointCursor(id);
+			while (!pc.isAfterLast()) {
+				points.put(pc.getColPlace(),
+						new Point(pc.getColLatitude(), pc.getColLongitude(), pc.getColRadius(), pc.getColPlace(), pc.getColPointId(), pc.getColTitle()));
+				pc.moveToNext();
+			}
+		} catch (Exception e) {
+		} finally {
+			if (null != pc) {
+				try {
+					SQLiteDatabase pcdb = pc.getDatabase();
+					pc.close();
+					pcdb.close();
+					
+				} catch (SQLException e) {
+				}
+			}
+		}
+		return new Route(id, color, title, extra, points);
+	}
+
+	/**
+	 * Returns a RoutesCursor for all routes
+	 */
+	public RoutesCursor getRoutesCursor() {
+		SQLiteDatabase d = getReadableDatabase();
+		RoutesCursor c = (RoutesCursor) d.rawQueryWithFactory(new RoutesCursor.Factory(), RoutesCursor.QUERY, null, null);
+		c.moveToFirst();
+		return c;
+	}
+
+	/**
+	 * Returns a PointsCursor for the specified routeId
+	 * 
+	 * @param routeId
+	 *            The _id of the route
+	 */
+	public PointsCursor getPointCursor(int routeId) {
+		String sql = PointsCursor.QUERY + routeId;
+		SQLiteDatabase d = getReadableDatabase();
+		PointsCursor c = (PointsCursor) d.rawQueryWithFactory(new PointsCursor.Factory(), sql, null, null);
+		c.moveToFirst();
+		return c;
+	}
+
+    
+	public static class RoutesCursor extends SQLiteCursor {
+		/** The query for this cursor */
+		private static final String	QUERY	= "SELECT routeId, color, title, extra, current FROM route";
+
+		/** Cursor constructor */
+		@SuppressWarnings("deprecation")
+		private RoutesCursor(SQLiteDatabase db, SQLiteCursorDriver driver, String editTable, SQLiteQuery query) {
+			super(db, driver, editTable, query);
+		}
+
+		/** Private factory class necessary for rawQueryWithFactory() call */
+		private static class Factory implements SQLiteDatabase.CursorFactory {
+			@Override
+			public Cursor newCursor(SQLiteDatabase db, SQLiteCursorDriver driver, String editTable, SQLiteQuery query) {
+				return new RoutesCursor(db, driver, editTable, query);
+			}
+		}
+
+		/* Accessor functions -- one per database column */
+		public int getColRouteId() {return getInt(getColumnIndexOrThrow("routeId"));}
+		public int getColColor() {return getInt(getColumnIndexOrThrow("color"));}
+		public String getColTitle() {return getString(getColumnIndexOrThrow("title"));}
+		public String getColExtra() {return getString(getColumnIndexOrThrow("extra"));}
+	}
+
+	/**
+	 * Provides self-contained query-specific cursor for Job Detail. The query
+	 * and all accessor methods are in the class.
+	 */
+	public static class PointsCursor extends SQLiteCursor {
+		/** The query for this cursor */
+		private static final String	QUERY	= "SELECT pointId, title, place, radius, latitude, longitude FROM point WHERE routeId = ";
+
+		/** Cursor constructor */
+		@SuppressWarnings("deprecation")
+		private PointsCursor(SQLiteDatabase db, SQLiteCursorDriver driver, String editTable, SQLiteQuery query) {
+			super(db, driver, editTable, query);
+		}
+
+		/** Private factory class necessary for rawQueryWithFactory() call */
+		private static class Factory implements SQLiteDatabase.CursorFactory {
+			@Override
+			public Cursor newCursor(SQLiteDatabase db, SQLiteCursorDriver driver, String editTable, SQLiteQuery query) {
+				return new PointsCursor(db, driver, editTable, query);
+			}
+		}
+
+		/* Accessor functions -- one per database column */
+		public int getColPointId() { return getInt(getColumnIndexOrThrow("pointId"));}
+		public String getColTitle() {return getString(getColumnIndexOrThrow("title"));}
+		public int getColPlace() {return getInt(getColumnIndexOrThrow("place"));}
+		public int getColRadius() {return getInt(getColumnIndexOrThrow("radius"));}
+		public double getColLatitude() {return getDouble(getColumnIndexOrThrow("latitude"));}
+		public double getColLongitude() {return getDouble(getColumnIndexOrThrow("longitude"));}
+		public int getColVisited() {return getInt(getColumnIndexOrThrow("visited"));}
+	}
+}

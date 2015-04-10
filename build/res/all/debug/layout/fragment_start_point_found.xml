@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/start_point_found_viewgroup"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:background="@drawable/bakgrund2x" >
+
+    <TextView
+        android:id="@+id/text_start_point_found"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/headphone"
+        android:drawablePadding="5dp"
+        android:gravity="center|center_horizontal"
+        android:paddingBottom="50dp"
+        android:paddingTop="50dp"
+        android:text="@string/start_found_text"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp" />
+
+    <ImageButton
+        android:id="@+id/start_point_found_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:background="#00000000"
+        android:src="@drawable/button_start_quest"
+        tools:ignore="ContentDescription" />
+
+</RelativeLayout>
+
+
+<!-- From: file:/D:/Programmering/Java/workspace/MaryamDevelopment/res/layout/fragment_start_point_found.xml -->
