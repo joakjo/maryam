@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <!-- selected state -->
-    <item android:drawable="@drawable/stars_gray_60"  android:state_pressed="false" android:state_selected="true"/>
-    <!-- unselected state (default) -->
-    <item android:drawable="@drawable/stars_white_80"/>
-
-</selector>
